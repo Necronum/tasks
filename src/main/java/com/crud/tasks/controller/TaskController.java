@@ -5,14 +5,13 @@ import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/v1/task")
 @RequiredArgsConstructor
@@ -20,23 +19,26 @@ public class TaskController {
     private final DbService service;
     private final TaskMapper taskMapper;
 
-
+    @CrossOrigin("*")
     @RequestMapping(method = RequestMethod.GET, value = "getTasks")
     public List<TaskDto> getTasks() {
         List<Task> tasks = service.getAllTasks();
         return taskMapper.mapToTaskDtoList(tasks);
     }
 
+    @CrossOrigin("*")
     @GetMapping("getTask")
     public TaskDto getTask(@RequestParam Long taskId) throws NotFoundException {
         return taskMapper.mapToTaskDto(service.getTaskById(taskId).orElseThrow(NotFoundException::new));
     }
 
+    @CrossOrigin("*")
     @DeleteMapping(value = "deleteTask")
     public void deleteTask(@RequestParam Long taskId) {
         service.deleteTask(taskId);
     }
 
+    @CrossOrigin("*")
     @PutMapping(value = "updateTask")
     public TaskDto updateTask(@RequestBody TaskDto taskDto) {
         Task task = taskMapper.mapToTask(taskDto);
@@ -44,6 +46,7 @@ public class TaskController {
         return taskMapper.mapToTaskDto(savedTask);
     }
 
+    @CrossOrigin("*")
     @PostMapping(value = "createTask", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createTask(@RequestBody TaskDto taskDto) {
         Task task = taskMapper.mapToTask(taskDto);
