@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins = "https://necronum.github.io/", maxAge = 3600)
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/v1/task")
 @RequiredArgsConstructor
 public class TaskController {
     private final DbService service;
     private final TaskMapper taskMapper;
+
 
     @RequestMapping(method = RequestMethod.GET, value = "getTasks")
     public List<TaskDto> getTasks() {
