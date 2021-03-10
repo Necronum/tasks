@@ -19,30 +19,30 @@ public class TaskController {
     private final DbService service;
     private final TaskMapper taskMapper;
 
-    @RequestMapping(method = RequestMethod.GET, value = "getTasks")
+    @RequestMapping(method = RequestMethod.GET, value = "/getTasks")
     public List<TaskDto> getTasks() {
         List<Task> tasks = service.getAllTasks();
         return taskMapper.mapToTaskDtoList(tasks);
     }
 
-    @GetMapping("getTask")
+    @GetMapping("/getTask")
     public TaskDto getTask(@RequestParam Long taskId) throws NotFoundException {
         return taskMapper.mapToTaskDto(service.getTaskById(taskId).orElseThrow(NotFoundException::new));
     }
 
-    @DeleteMapping(value = "deleteTask")
+    @DeleteMapping(value = "/deleteTask")
     public void deleteTask(@RequestParam Long taskId) {
         service.deleteTask(taskId);
     }
 
-    @PutMapping(value = "updateTask")
+    @PutMapping(value = "/updateTask")
     public TaskDto updateTask(@RequestBody TaskDto taskDto) {
         Task task = taskMapper.mapToTask(taskDto);
         Task savedTask = service.saveTask(task);
         return taskMapper.mapToTaskDto(savedTask);
     }
 
-    @PostMapping(value = "createTask", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/createTask", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void createTask(@RequestBody TaskDto taskDto) {
         Task task = taskMapper.mapToTask(taskDto);
         service.saveTask(task);
